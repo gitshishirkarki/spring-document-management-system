@@ -57,6 +57,9 @@ The API documentation is available in Postman collection format. You can import 
 
 The collection includes all the endpoints and example requests for the Document Management System backend.
 
+## Front End
+To view the folder and document hierarchy UI and download the documents, open the index.html file in your web browser.
+
 ## Contributing
 
 Contributions to the Document Management System backend are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue on the GitHub repository.
