@@ -7,7 +7,6 @@ This repository contains the backend implementation of a Document Management Sys
 - Create, retrieve, update, and delete folders
 - Upload documents to specific folders
 - Download documents from the system
-- UI for Folders and Document Hierarchy Display
 - [PROGRESS] Folder and Document permission management
 
 ## Technologies Used
@@ -56,9 +55,6 @@ The API documentation is available in Postman collection format. You can import 
 [Import Postman Collection](https://api.postman.com/collections/25891149-27b7516d-b2ca-4bc0-8616-9a3c981e1336?access_key=PMAT-01H3P1D98YEB8JY6922JP17HBR)
 
 The collection includes all the endpoints and example requests for the Document Management System backend.
-
-## Front End
-To view the folder and document hierarchy UI and download the documents, open the index.html file in your web browser.
 
 ## Contributing
 

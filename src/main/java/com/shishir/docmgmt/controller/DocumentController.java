@@ -1,9 +1,11 @@
 package com.shishir.docmgmt.controller;
 
+import com.shishir.docmgmt.dto.DocumentResponseDto;
 import com.shishir.docmgmt.entity.Document;
 import com.shishir.docmgmt.entity.DocumentRepository;
 import com.shishir.docmgmt.entity.Folder;
 import com.shishir.docmgmt.entity.FolderRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -37,7 +39,7 @@ public class DocumentController {
     }
 
     @PostMapping("/{folderId}")
-    public ResponseEntity<Document> createDocument(@PathVariable Long folderId,
+    public ResponseEntity<DocumentResponseDto> createDocument(@PathVariable Long folderId,
                                                    @RequestParam("file") MultipartFile file) {
         // Check if the folder exists
         Optional<Folder> optionalFolder = folderRepository.findById(folderId);
@@ -72,7 +74,11 @@ public class DocumentController {
 
             Document savedDocument = documentRepository.save(document);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedDocument);
+            // Create the response DTO
+            DocumentResponseDto responseDto = new DocumentResponseDto();
+            BeanUtils.copyProperties(savedDocument, responseDto);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

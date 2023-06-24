@@ -1,10 +1,13 @@
 package com.shishir.docmgmt.controller;
 
+import com.shishir.docmgmt.dto.FolderResponseDto;
 import com.shishir.docmgmt.entity.Folder;
 import com.shishir.docmgmt.entity.FolderRepository;
 import com.shishir.docmgmt.service.FolderDto;
 import com.shishir.docmgmt.service.FolderService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +17,8 @@ import java.io.File;
 @RestController
 @RequestMapping("/folders")
 public class FolderController {
-    private static final String MAIN_DIRECTORY = "D:/docmgmt/";
+    @Value("${shishir.docs.folder.main}")
+    private String mainDirectory;
 
     private final FolderRepository folderRepository;
     private final FolderService folderService;
@@ -41,7 +45,7 @@ public class FolderController {
     }
 
     @PostMapping
-    public ResponseEntity<Folder> createFolder(@RequestBody Folder folder) {
+    public ResponseEntity<FolderResponseDto> createFolder(@RequestBody Folder folder) {
         // Save the folder in the repository
         Folder parentFolder = null;
         if (folder.getParentFolder() != null && folder.getParentFolder().getId() != null) {
@@ -57,7 +61,7 @@ public class FolderController {
         if (parentFolder != null) {
             folderPath = parentFolder.getPath() + "/" + folder.getName();
         } else {
-            folderPath = MAIN_DIRECTORY + folder.getName();
+            folderPath = mainDirectory + folder.getName();
         }
         folder.setPath(folderPath);
 
@@ -75,8 +79,11 @@ public class FolderController {
         }
 
         if (newFolder.mkdir()) {
+            //Generate response
+            FolderResponseDto folderResponseDto = new FolderResponseDto();
+            BeanUtils.copyProperties(savedFolder, folderResponseDto);
             // Folder creation succeeded
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedFolder);
+            return ResponseEntity.status(HttpStatus.CREATED).body(folderResponseDto);
         } else {
             // Folder creation failed
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
