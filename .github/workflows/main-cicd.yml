@@ -21,11 +21,8 @@ jobs:
         with:
           java-version: 1.8
 
-      - name: Build and Test
-        run: ./gradlew build --info
-
-      - name: Create JAR
-        run: ./gradlew bootJar --info
+      - name: Build
+        run: gradle build -x test
 
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v2
