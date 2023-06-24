@@ -7,6 +7,7 @@ This repository contains the backend implementation of a Document Management Sys
 - Create, retrieve, update, and delete folders
 - Upload documents to specific folders
 - Download documents from the system
+- UI component to verify folder and document hierarchy (index.html)
 - [PROGRESS] Folder and Document permission management
 
 ## Technologies Used
