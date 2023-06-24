@@ -15,12 +15,13 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '8'
+          distribution: 'adopt'
 
       - name: Install Gradle
         run: |
-          wget https://services.gradle.org/distributions/gradle-7.3-bin.zip
-          unzip -d /opt/gradle gradle-7.3-bin.zip
-          echo "export PATH=\$PATH:/opt/gradle/gradle-7.3/bin" >> $GITHUB_ENV
+          wget https://services.gradle.org/distributions/gradle-7.6.1-bin.zip
+          unzip -d /opt/gradle gradle-7.6.1-bin.zip
+          echo "export PATH=\$PATH:/opt/gradle/gradle-7.6.1/bin" >> $GITHUB_ENV
 
       - name: Build
         run: gradle build -x test
