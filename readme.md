@@ -82,7 +82,7 @@ The folder and document hierarchy is populated using a sample JSON structure. Yo
 ## File Structure
 
 - `index.html`: The main HTML file that displays the folder and document hierarchy.
-- `script.js`: The JavaScript code responsible for building the HTML structure based on the JSON hierarchy.
+- `script tag`: The JavaScript code responsible for building the HTML structure based on the JSON hierarchy.
 
 ## Notes
 
