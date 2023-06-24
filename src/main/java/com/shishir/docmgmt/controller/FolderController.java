@@ -2,6 +2,8 @@ package com.shishir.docmgmt.controller;
 
 import com.shishir.docmgmt.entity.Folder;
 import com.shishir.docmgmt.entity.FolderRepository;
+import com.shishir.docmgmt.service.FolderDto;
+import com.shishir.docmgmt.service.FolderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +17,12 @@ public class FolderController {
     private static final String MAIN_DIRECTORY = "D:/docmgmt/";
 
     private final FolderRepository folderRepository;
+    private final FolderService folderService;
 
     @Autowired
-    public FolderController(FolderRepository folderRepository) {
+    public FolderController(FolderRepository folderRepository, FolderService folderService) {
         this.folderRepository = folderRepository;
+        this.folderService = folderService;
     }
 
     @GetMapping
@@ -102,6 +106,15 @@ public class FolderController {
         if (folderRepository.existsById(id)) {
             folderRepository.deleteById(id);
             return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/hierarchy")
+    public ResponseEntity<FolderDto> getFolderHierarchy() {
+        FolderDto folderHierarchy = folderService.getFolderHierarchy();
+        if (folderHierarchy != null) {
+            return ResponseEntity.ok(folderHierarchy);
         }
         return ResponseEntity.notFound().build();
     }

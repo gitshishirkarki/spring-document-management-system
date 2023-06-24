@@ -64,6 +64,7 @@ public class DocumentController {
             document.setName(file.getOriginalFilename());
             document.setPath(filePath);
             document.setUuid(uuid);
+            document.setFolder(folder);
 
             // Generate the URL for downloading the document
             String downloadUrl = "/documents/download/" + document.getUuid();

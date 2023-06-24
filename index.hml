@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Folder and Document Hierarchy</title>
+</head>
+<body>
+  <div id="folderHierarchy"></div>
+
+  <script>
+    // Sample JSON hierarchy response
+    const jsonHierarchy = {
+    "folderId": 1,
+    "name": "Parent",
+    "path": "D:/docmgmt/Parent",
+    "folders": [
+        {
+            "folderId": 2,
+            "name": "Child2",
+            "path": "D:/docmgmt/Parent/Child2",
+            "folders": [],
+            "documents": [
+                {
+                    "documentId": 3,
+                    "name": "Aarogya-Project-Document.pdf",
+                    "url": "/documents/download/d8a6a3e9-dc1d-4bcd-948c-593b5ab36b24"
+                }
+            ]
+        },
+        {
+            "folderId": 3,
+            "name": "Child1",
+            "path": "D:/docmgmt/Parent/Child1",
+            "folders": [],
+            "documents": [
+                {
+                    "documentId": 1,
+                    "name": "Aarogya-Project-Document.pdf",
+                    "url": "/documents/download/ba62b669-6956-4fc8-9ac4-48da337d1d56"
+                }
+            ]
+        }
+    ],
+    "documents": [
+        {
+            "documentId": 2,
+            "name": "Aarogya-Project-Document.pdf",
+            "url": "/documents/download/06b26eee-5328-4c92-b695-976bc1220ad1"
+        },
+        {
+            "documentId": 4,
+            "name": "lab-report-62.pdf",
+            "url": "/documents/download/4edb505b-30b1-432c-a040-7ea2fa737268"
+        }
+    ]
+};
+
+    // Function to recursively build the HTML structure
+    function buildHierarchyHTML(folder) {
+      let html = `
+        <li>
+          <strong>Folder Name:</strong> ${folder.name}
+        `;
+
+      // Build the HTML for subfolders
+      if (folder.folders.length > 0) {
+        html += `
+          <ul>
+            ${folder.folders.map(subfolder => buildHierarchyHTML(subfolder)).join('')}
+          </ul>
+        `;
+      }
+
+      // Build the HTML for documents
+      if (folder.documents && folder.documents.length > 0) {
+        html += `
+          <ul>
+            ${folder.documents.map(document => `
+              <li>
+                <strong>Document Name:</strong> ${document.name}<br>
+                <strong>Download URL:</strong> <a href="http://localhost:8080${document.url}">Download ${document.name}</a>
+              </li>
+            `).join('')}
+          </ul>
+        `;
+      }
+
+      html += "</li>";
+
+      return html;
+    }
+
+    // Get the target element to display the hierarchy
+    const folderHierarchyElement = document.getElementById("folderHierarchy");
+
+    // Build and display the hierarchy HTML
+    folderHierarchyElement.innerHTML = `
+      <ul>
+        ${buildHierarchyHTML(jsonHierarchy)}
+      </ul>
+    `;
+  </script>
+</body>
+</html>
