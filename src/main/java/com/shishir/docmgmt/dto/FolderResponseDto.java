@@ -11,4 +11,6 @@ public class FolderResponseDto {
     private String name;
 
     private String path;
+
+    private String error;
 }

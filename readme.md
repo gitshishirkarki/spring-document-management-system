@@ -1,4 +1,5 @@
-# Document Management System Backend - Spring Boot
+# Document Management System 
+# Backend - Spring Boot
 
 This repository contains the backend implementation of a Document Management System. It provides a set of APIs for managing folders and documents, allowing users to organize and store their files efficiently.
 
@@ -7,8 +8,8 @@ This repository contains the backend implementation of a Document Management Sys
 - Create, retrieve, update, and delete folders
 - Upload documents to specific folders
 - Download documents from the system
-- UI component to verify folder and document hierarchy (index.html)
 - [PROGRESS] Folder and Document permission management
+- [PROGRESS] Document Management React JS
 
 ## Technologies Used
 
@@ -56,6 +57,41 @@ The API documentation is available in Postman collection format. You can import 
 [Import Postman Collection](https://api.postman.com/collections/25891149-27b7516d-b2ca-4bc0-8616-9a3c981e1336?access_key=PMAT-01H3P1D98YEB8JY6922JP17HBR)
 
 The collection includes all the endpoints and example requests for the Document Management System backend.
+
+---
+
+# Front End - HTML
+
+## Folder and Document Hierarchy
+
+![Alt Text](Screenshot%202023-06-24%20224537.png)
+
+This is a sample HTML document that demonstrates a folder and document hierarchy. It displays a file browser-like structure with folders and associated documents. You can also download the documents directly from the interface.
+
+## Usage
+
+1. Open the `index.html` file in a web browser.
+2. The folder and document hierarchy will be rendered on the page.
+3. Navigate through the folders to explore the subfolders and documents.
+4. Click on the document links to download the respective documents.
+
+## JSON Hierarchy
+
+The folder and document hierarchy is populated using a sample JSON structure. You can replace this JSON structure with your own dynamic data from an API. The JSON structure should follow the same format and include the necessary fields: `folderId`, `name`, `path`, `folders`, and `documents`.
+
+## File Structure
+
+- `index.html`: The main HTML file that displays the folder and document hierarchy.
+- `script.js`: The JavaScript code responsible for building the HTML structure based on the JSON hierarchy.
+
+## Notes
+
+- The HTML structure is built dynamically using JavaScript, so you can easily adapt it to integrate with your own application or API.
+- Customize the JSON hierarchy or replace it with dynamic data from your backend API to reflect your actual folder and document structure.
+
+---
+
+Feel free to customize the document further to add any additional information or instructions specific to your project.
 
 ## Contributing
 

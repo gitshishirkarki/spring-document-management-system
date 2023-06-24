@@ -7,87 +7,42 @@
   <div id="folderHierarchy"></div>
 
   <script>
-    // Sample JSON hierarchy response
-    const jsonHierarchy = {
-    "folderId": 1,
-    "name": "Parent",
-    "path": "D:/docmgmt/Parent",
-    "folders": [
-        {
-            "folderId": 2,
-            "name": "Child2",
-            "path": "D:/docmgmt/Parent/Child2",
-            "folders": [],
-            "documents": []
-        },
-        {
-            "folderId": 3,
-            "name": "Child1",
-            "path": "D:/docmgmt/Parent/Child1",
-            "folders": [
-                {
-                    "folderId": 4,
-                    "name": "Child11",
-                    "path": "D:/docmgmt/Parent/Child1/Child11",
-                    "folders": [],
-                    "documents": [
-                        {
-                            "documentId": 3,
-                            "name": "lab-report-62.pdf",
-                            "url": "/documents/download/64950af5-ff3b-49bd-aec9-02b8201c085e"
-                        }
-                    ]
-                }
-            ],
-            "documents": [
-                {
-                    "documentId": 2,
-                    "name": "lab-report-62.pdf",
-                    "url": "/documents/download/fd6ada4c-3554-4469-94ce-dc81940aa6ce"
-                }
-            ]
-        }
-    ],
-    "documents": [
-        {
-            "documentId": 1,
-            "name": "lab-report-62.pdf",
-            "url": "/documents/download/8331d805-825d-4cc6-8d6b-390ed3e45199"
-        }
-    ]
-};
-
     // Function to recursively build the HTML structure
-    function buildHierarchyHTML(folder) {
-      let html = `
-        <li>
-          <strong>Folder Name:</strong> ${folder.name}
-        `;
+    function buildHierarchyHTML(items) {
+      let html = '';
 
-      // Build the HTML for subfolders
-      if (folder.folders.length > 0) {
+      items.forEach(item => {
         html += `
-          <ul>
-            ${folder.folders.map(subfolder => buildHierarchyHTML(subfolder)).join('')}
-          </ul>
+          <li>
+            <strong>Folder/Document Name:</strong> ${item.name}<br>
+            <strong>Path:</strong> ${item.path}<br>
+            ${item.folders && item.folders.length > 0 ? '<strong>Folders:</strong>' : ''}
+            <ul>
+              ${item.folders ? buildHierarchyHTML(item.folders) : ''}
+            </ul>
+            ${item.documents && item.documents.length > 0 ? '<strong>Documents:</strong>' : ''}
+            <ul>
+              ${item.documents ? buildDocumentsHTML(item.documents) : ''}
+            </ul>
+          </li>
         `;
-      }
+      });
 
-      // Build the HTML for documents
-      if (folder.documents && folder.documents.length > 0) {
+      return html;
+    }
+
+    // Function to build the HTML for documents
+    function buildDocumentsHTML(documents) {
+      let html = '';
+
+      documents.forEach(document => {
         html += `
-          <ul>
-            ${folder.documents.map(document => `
-              <li>
-                <strong>Document Name:</strong> ${document.name}<br>
-                <strong>Download URL:</strong> <a href="http://localhost:8080${document.url}">Download ${document.name}</a>
-              </li>
-            `).join('')}
-          </ul>
+          <li>
+            <strong>Document Name:</strong> ${document.name}<br>
+            <strong>Download URL:</strong> <a href="http://localhost:8080${document.url}">Download ${document.name}</a>
+          </li>
         `;
-      }
-
-      html += "</li>";
+      });
 
       return html;
     }
@@ -95,12 +50,20 @@
     // Get the target element to display the hierarchy
     const folderHierarchyElement = document.getElementById("folderHierarchy");
 
-    // Build and display the hierarchy HTML
-    folderHierarchyElement.innerHTML = `
-      <ul>
-        ${buildHierarchyHTML(jsonHierarchy)}
-      </ul>
-    `;
+    // Fetch the JSON hierarchy from the API endpoint
+    fetch("http://localhost:8080/folders/hierarchy")
+      .then(response => response.json())
+      .then(jsonHierarchy => {
+        // Build and display the hierarchy HTML
+        folderHierarchyElement.innerHTML = `
+          <ul>
+            ${buildHierarchyHTML(jsonHierarchy)}
+          </ul>
+        `;
+      })
+      .catch(error => {
+        console.error("Error fetching hierarchy:", error);
+      });
   </script>
 </body>
 </html>
